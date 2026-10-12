@@ -1014,6 +1014,11 @@
               const subNotice = sub.notice ? (sub.notice[currentLang] || sub.notice.en) : '';
               html += `
                 <div class="m-sub-title">${sub.title[currentLang] || sub.title.en}</div>
+                ${sub.bannerImage && !query ? `
+                  <div class="m-cat-banner" style="margin-bottom: 14px;">
+                    <img src="${sub.bannerImage}" alt="${escapeHtml(sub.title[currentLang] || sub.title.en)}" style="border-radius: 12px; width: 100%; display: block; border: 1px solid var(--border-subtle); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                  </div>
+                ` : ''}
                 ${subNotice ? `
                   <div class="m-sub-notice-banner">
                     <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; opacity: 0.9;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
