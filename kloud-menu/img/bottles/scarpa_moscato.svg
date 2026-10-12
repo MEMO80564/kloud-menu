@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 520" width="100%" height="100%">
+  <defs>
+    <linearGradient id="glassGrad_scarpa_moscato" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#1b2318" stop-opacity="0.96"/>
+      <stop offset="25%" stop-color="#ffffff" stop-opacity="0.25"/>
+      <stop offset="42%" stop-color="#1b2318" stop-opacity="0.75"/>
+      <stop offset="78%" stop-color="#1b2318" stop-opacity="0.98"/>
+      <stop offset="100%" stop-color="#000000" stop-opacity="0.85"/>
+    </linearGradient>
+    <linearGradient id="foilGrad_scarpa_moscato" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#8ea687" stop-opacity="0.9"/>
+      <stop offset="35%" stop-color="#ffffff" stop-opacity="0.55"/>
+      <stop offset="70%" stop-color="#8ea687" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#2a2010" stop-opacity="0.95"/>
+    </linearGradient>
+    <linearGradient id="labelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#fefcf8"/>
+      <stop offset="100%" stop-color="#ebe3cf"/>
+    </linearGradient>
+    <filter id="shadow_scarpa_moscato" x="-30%" y="-15%" width="160%" height="135%">
+      <feDropShadow dx="0" dy="14" stdDeviation="10" flood-color="#000000" flood-opacity="0.75"/>
+    </filter>
+  </defs>
+
+  <g filter="url(#shadow_scarpa_moscato)">
+    <!-- Bottle Body Silhouette -->
+    <path d="M68,115 L68,42 Q68,36 72,34 L88,34 Q92,36 92,42 L92,115 
+             C92,168 126,192 126,245 L126,478 Q126,494 108,494 L52,494 Q34,494 34,478 L34,245 
+             C34,192 68,168 68,115 Z" 
+          fill="url(#glassGrad_scarpa_moscato)" stroke="rgba(212,175,55,0.22)" stroke-width="1.2"/>
+
+    <!-- Foil Neck Sleeve -->
+    <path d="M67,35 L93,35 L93,120 C87,123 73,123 67,120 Z" fill="url(#foilGrad_scarpa_moscato)"/>
+    <rect x="66" y="34" width="28" height="6" rx="2" fill="#8ea687" stroke="#ffffff" stroke-opacity="0.35"/>
+    <rect x="68" y="70" width="24" height="4" fill="#8ea687" opacity="0.8"/>
+
+    <!-- Vineyard Prestige Label -->
+    <rect x="42" y="245" width="76" height="152" rx="4" fill="url(#labelGrad)" stroke="#8ea687" stroke-width="1.1"/>
+    <rect x="45" y="248" width="70" height="146" rx="3" fill="none" stroke="rgba(140,110,35,0.45)" stroke-width="0.8"/>
+
+    <!-- Gold Foil Crest -->
+    <circle cx="80" cy="270" r="9" fill="none" stroke="#8ea687" stroke-width="1"/>
+    <text x="80" y="274" font-family="Cinzel, serif" font-size="8" font-weight="bold" fill="#8ea687" text-anchor="middle">K</text>
+
+    <!-- Main Title -->
+    <text x="80" y="296" font-family="Cinzel, serif" font-size="8" font-weight="900" fill="#181612" text-anchor="middle" letter-spacing="0.5">SCARPA</text>
+    <line x1="55" y1="304" x2="105" y2="304" stroke="#8ea687" stroke-width="0.8"/>
+    
+    <!-- Subtitle / Region -->
+    <text x="80" y="322" font-family="'Outfit', sans-serif" font-size="6.2" font-weight="600" fill="#38342c" text-anchor="middle">Scarpa Tacco Dodici</text>
+    <text x="80" y="336" font-family="'Outfit', sans-serif" font-size="5.2" fill="#696252" text-anchor="middle">Moscato d’Asti DOCG</text>
+
+    <!-- Appellation & Vintage Badge -->
+    <rect x="52" y="356" width="56" height="14" rx="2" fill="rgba(212,175,55,0.12)" stroke="#8ea687" stroke-width="0.6"/>
+    <text x="80" y="366" font-family="Cinzel, serif" font-size="5" font-weight="bold" fill="#7a5c18" text-anchor="middle">RESERVE BOTTLE</text>
+    <text x="80" y="386" font-family="'Outfit', sans-serif" font-size="5" fill="#8c826e" text-anchor="middle">750ml • ESTATE GROWN</text>
+
+    <!-- Glass Specular Highlight Sheen -->
+    <path d="M42,245 C42,202 70,178 70,125 L72,125 C72,178 44,202 44,245 L44,472 L42,472 Z" 
+          fill="#ffffff" opacity="0.22"/>
+  </g>
+</svg>
