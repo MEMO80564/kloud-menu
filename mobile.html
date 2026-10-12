@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="ko" data-theme="dark" data-lang="ko" data-currency="KRW" data-font="normal">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>KLOUD - Mobile App Edition</title>
+  
+  <!-- Mobile App PWA Meta -->
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="mobile-web-app-capable" content="yes">
+  <meta name="theme-color" content="#070b14">
+
+  <!-- Google Luxury Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;900&family=Noto+Serif+JP:wght@400;600;700&family=Noto+Serif+KR:wght@300;400;600;700&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    :root {
+      --bg-primary: #070b14;
+      --bg-surface: #0e1524;
+      --bg-card: rgba(16, 23, 38, 0.94);
+      --bg-card-hover: rgba(24, 35, 58, 0.98);
+      --border-subtle: rgba(212, 175, 55, 0.2);
+      --border-active: #d4af37;
+      --gold-primary: #e6ca65;
+      --gold-dark: #b89334;
+      --gold-light: #faeab1;
+      --text-main: #f5f6f9;
+      --text-muted: #9ba5b7;
+      --accent-glow: rgba(212, 175, 55, 0.18);
+      --header-height: 60px;
+      --bottom-nav-height: 68px;
+      --font-scale: 1;
+    }
+
+    [data-theme="light"] {
+      --bg-primary: #f5f5f3;
+      --bg-surface: #ebebe5;
+      --bg-card: rgba(255, 255, 255, 0.95);
+      --bg-card-hover: #ffffff;
+      --border-subtle: rgba(140, 110, 35, 0.22);
+      --border-active: #9a7620;
+      --gold-primary: #8a681c;
+      --gold-dark: #634b12;
+      --gold-light: #3d2e09;
+      --text-main: #16171a;
+      --text-muted: #5e6473;
+    }
+
+    [data-font="large"] { --font-scale: 1.14; }
+    [data-font="xlarge"] { --font-scale: 1.28; }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+      -webkit-user-select: none;
+    }
+
+    /* Minimal Invisible Scrollbar */
+    ::-webkit-scrollbar {
+      display: none;
+      width: 0;
+      height: 0;
+    }
+
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: 'Outfit', 'Noto Serif KR', 'Noto Serif JP', -apple-system, sans-serif;
+      background-color: var(--bg-primary);
+      color: var(--text-main);
+    }
+
+    /* APP WRAPPER */
+    .mobile-app-shell {
+      display: flex;
+      flex-direction: column;
+      height: 100%;
+      max-width: 480px; /* Perfect native smartphone frame on larger screens */
+      margin: 0 auto;
+      position: relative;
+      background: var(--bg-primary);
+      box-shadow: 0 0 50px rgba(0, 0, 0, 0.8);
+    }
+
+    /* 1. TOP HEADER */
+    header.mobile-header {
+      height: var(--header-height);
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 0 16px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-shrink: 0;
+      z-index: 100;
+    }
+
+    .m-brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .m-emblem {
+      width: 38px;
+      height: 38px;
+      border: 1px solid var(--gold-primary);
+      border-radius: 8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      overflow: hidden;
+      background: #17384a;
+      box-shadow: 0 0 12px var(--accent-glow);
+      flex-shrink: 0;
+    }
+
+    .m-emblem img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .m-brand-text h1 {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      font-weight: 700;
+      letter-spacing: 2px;
+      color: var(--gold-light);
+      line-height: 1.1;
+    }
+
+    .m-brand-text span {
+      font-size: 0.56rem;
+      letter-spacing: 1.5px;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      white-space: nowrap;
+      display: block;
+    }
+
+    /* HEADER TOOLS (Currency & Lang quick triggers) */
+    .m-header-actions {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .m-pill-btn {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid var(--border-subtle);
+      border-radius: 20px;
+      padding: 6px 10px;
+      color: var(--gold-light);
+      font-size: 0.78rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .m-pill-btn:active {
+      background: var(--gold-primary);
+      color: #070b14;
+    }
+
+    /* 2. SUB HEADER (Operation Hours Notice) */
+    .m-notice-strip {
+      background: linear-gradient(90deg, rgba(212, 175, 55, 0.08), rgba(212, 175, 55, 0.02));
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 6px 14px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      font-size: calc(0.72rem * var(--font-scale));
+      color: var(--gold-light);
+      flex-shrink: 0;
+    }
+
+    /* 3. HORIZONTAL CATEGORY SWIPER BAR */
+    .m-category-scroll {
+      display: flex;
+      overflow-x: auto;
+      scrollbar-width: none;
+      -webkit-overflow-scrolling: touch;
+      background: var(--bg-surface);
+      border-bottom: 1px solid var(--border-subtle);
+      padding: 10px 12px;
+      gap: 8px;
+      flex-shrink: 0;
+    }
+
+    .m-cat-chip {
+      flex: 0 0 auto;
+      padding: 9px 18px;
+      border-radius: 22px;
+      background: rgba(255, 255, 255, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.22);
+      color: #8b95a8;
+      font-size: calc(0.82rem * var(--font-scale));
+      font-weight: 500;
+      letter-spacing: 0.6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      white-space: nowrap;
+    }
+
+    .m-cat-chip.active {
+      background: linear-gradient(135deg, rgba(230, 202, 101, 0.2), rgba(212, 175, 55, 0.06));
+      border: 1.5px solid var(--gold-primary);
+      color: #faeab1;
+      font-weight: 700;
+      box-shadow: 0 4px 16px rgba(212, 175, 55, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.12);
+      text-shadow: 0 0 10px rgba(230, 202, 101, 0.4);
+    }
+
+    [data-theme="light"] .m-cat-chip {
+      background: rgba(0, 0, 0, 0.03);
+      border-color: rgba(140, 110, 35, 0.25);
+      color: #555d6e;
+    }
+
+    [data-theme="light"] .m-cat-chip.active {
+      color: #fff;
+      background: linear-gradient(135deg, var(--gold-primary), var(--gold-dark));
+      border-color: var(--gold-dark);
+      text-shadow: none;
+    }
+
+    /* 4. MAIN SCROLLABLE APP BODY */
+    main.m-app-body {
+      flex: 1;
+      overflow-y: auto;
+      -webkit-overflow-scrolling: touch;
+      padding: 14px 14px 20px 14px;
+      scrollbar-width: none;
+    }
+
+    /* Search row */
+    .m-search-wrap {
+      position: relative;
+      margin-bottom: 14px;
+    }
+
+    .m-search-input {
+      width: 100%;
+      height: 44px;
+      background: var(--bg-surface);
+      border: 1px solid var(--border-subtle);
+      border-radius: 12px;
+      padding: 0 40px 0 42px;
+      color: var(--text-main);
+      font-size: calc(0.92rem * var(--font-scale));
+      outline: none;
+    }
+
+    .m-search-input:focus {
+      border-color: var(--gold-primary);
+    }
+
+    .m-search-icon {
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      transform: translateY(-50%);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--gold-primary);
+      opacity: 0.8;
+      pointer-events: none;
+    }
+
+    .m-search-clear {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 24px;
+      height: 24px;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.8rem;
+    }
+
+    /* Category Hero */
+    .m-hero-header {
+      margin-bottom: 16px;
+      border-left: 3px solid var(--gold-primary);
+      padding-left: 12px;
+    }
+
+    .m-hero-title {
+      font-family: 'Cinzel', 'Noto Serif KR', serif;
+      font-size: calc(1.4rem * var(--font-scale));
+      font-weight: 700;
+      color: var(--gold-light);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .m-hero-desc {
+      color: var(--text-muted);
+      font-size: calc(0.82rem * var(--font-scale));
+      margin-top: 4px;
+      line-height: 1.35;
+    }
+
+    .m-cat-banner {
+      width: 100%;
+      height: auto;
+      border-radius: 14px;
+      overflow: hidden;
+      margin-bottom: 16px;
+      border: 1px solid var(--border-subtle);
+      background: #000;
+    }
+
+    .m-cat-banner img {
+      width: 100%;
+      height: auto;
+      object-fit: contain;
+      display: block;
+    }
+
+    /* Subgroup Title */
+    .m-sub-title {
+      font-size: calc(1.05rem * var(--font-scale));
+      font-weight: 600;
+      color: var(--gold-primary);
+      margin: 20px 0 10px 0;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .m-sub-title::after {
+      content: "";
+      flex: 1;
+      height: 1px;
+      background: linear-gradient(90deg, var(--border-subtle), transparent);
+    }
+
+    .m-sub-notice-banner {
+      margin: -4px 0 14px 0;
+      padding: 10px 14px;
+      background: rgba(212, 175, 55, 0.09);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+      border-left: 3.5px solid var(--gold-primary);
+      border-radius: 9px;
+      color: var(--gold-light);
+      font-size: calc(0.82rem * var(--font-scale));
+      font-weight: 600;
+      line-height: 1.45;
+      display: flex;
+      align-items: flex-start;
+      gap: 8px;
+      box-shadow: 0 3px 12px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Item Card (Mobile Optimized) */
+    .m-item-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-subtle);
+      border-radius: 14px;
+      padding: 16px;
+      margin-bottom: 12px;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.35);
+      transition: all 0.15s;
+    }
+
+    .m-item-card:active {
+      transform: scale(0.99);
+      border-color: var(--gold-primary);
+    }
+
+    .m-item-card.highlight {
+      border: 1.5px solid var(--gold-primary);
+      background: linear-gradient(145deg, rgba(212, 175, 55, 0.12), rgba(16, 23, 38, 0.96));
+    }
+
+    .m-card-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+    }
+
+    .m-title-area {
+      flex: 1;
+    }
+
+    .m-item-badge {
+      display: inline-block;
+      padding: 2px 7px;
+      background: rgba(212, 175, 55, 0.15);
+      border: 1px solid var(--gold-primary);
+      color: var(--gold-light);
+      border-radius: 5px;
+      font-size: calc(0.68rem * var(--font-scale));
+      font-weight: 700;
+      margin-bottom: 4px;
+    }
+
+    .m-item-name {
+      font-size: calc(1.04rem * var(--font-scale));
+      font-weight: 600;
+      color: var(--text-main);
+      line-height: 1.3;
+    }
+
+    .m-item-sub {
+      font-size: calc(0.78rem * var(--font-scale));
+      color: var(--text-muted);
+      margin-top: 2px;
+      font-style: italic;
+    }
+
+    /* PRICE */
+    .m-price-col {
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .m-price-main {
+      font-family: 'Cinzel', 'Outfit', sans-serif;
+      font-size: calc(1.22rem * var(--font-scale));
+      font-weight: 700;
+      color: var(--gold-light);
+      white-space: nowrap;
+    }
+
+    .m-price-sub {
+      font-size: calc(0.74rem * var(--font-scale));
+      color: var(--text-muted);
+      margin-top: 2px;
+      white-space: nowrap;
+    }
+
+    .m-dual-row {
+      display: flex;
+      align-items: baseline;
+      justify-content: flex-end;
+      gap: 6px;
+    }
+
+    .m-dual-lbl {
+      font-size: calc(0.7rem * var(--font-scale));
+      color: var(--text-muted);
+    }
+
+    .m-item-desc {
+      font-size: calc(0.85rem * var(--font-scale));
+      color: var(--text-muted);
+      line-height: 1.45;
+      margin-top: 8px;
+      white-space: pre-line;
+    }
+
+    .m-tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 4px;
+      margin-top: 8px;
+    }
+
+    .m-tag {
+      font-size: calc(0.68rem * var(--font-scale));
+      padding: 2px 7px;
+      border-radius: 10px;
+      background: rgba(212, 175, 55, 0.08);
+      border: 1px solid rgba(212, 175, 55, 0.2);
+      color: var(--gold-light);
+    }
+
+    .m-item-note {
+      font-size: calc(0.76rem * var(--font-scale));
+      color: #e09351;
+      margin-top: 6px;
+    }
+
+    /* 5. BOTTOM APP NAVIGATION BAR (Luxury Typographic Style) */
+    nav.mobile-bottom-nav {
+      height: var(--bottom-nav-height);
+      background: rgba(10, 15, 26, 0.96);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-top: 1px solid rgba(212, 175, 55, 0.24);
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      padding: 0 4px;
+      flex-shrink: 0;
+      z-index: 100;
+      padding-bottom: env(safe-area-inset-bottom, 0);
+      box-shadow: 0 -8px 25px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.04);
+    }
+
+    .m-nav-tab {
+      background: transparent;
+      border: none;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      flex: 1;
+      height: 100%;
+      padding: 6px 2px;
+      transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+      position: relative;
+    }
+
+    .m-nav-tab .tab-label {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .m-nav-tab .tab-main {
+      font-family: 'Cinzel', serif;
+      font-size: calc(0.72rem * var(--font-scale));
+      font-weight: 600;
+      letter-spacing: 1.6px;
+      color: #727c91;
+      text-transform: uppercase;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .m-nav-tab .tab-sub {
+      font-size: calc(0.58rem * var(--font-scale));
+      color: #525a6b;
+      margin-top: 2px;
+      font-weight: 500;
+      letter-spacing: 0.5px;
+      transition: all 0.2s ease;
+      white-space: nowrap;
+    }
+
+    .m-nav-tab .tab-indicator {
+      width: 16px;
+      height: 2px;
+      background: linear-gradient(90deg, var(--gold-light), var(--gold-primary));
+      border-radius: 2px;
+      margin-top: 5px;
+      opacity: 0;
+      transform: scaleX(0.2);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      box-shadow: 0 0 8px rgba(230, 202, 101, 0.8);
+    }
+
+    .m-nav-tab.active {
+      background: radial-gradient(circle at 50% 60%, rgba(212, 175, 55, 0.12) 0%, transparent 70%);
+    }
+
+    .m-nav-tab.active .tab-main {
+      color: var(--gold-light);
+      font-weight: 700;
+      text-shadow: 0 0 10px rgba(230, 202, 101, 0.5);
+    }
+
+    .m-nav-tab.active .tab-sub {
+      color: var(--gold-primary);
+      opacity: 0.95;
+    }
+
+    .m-nav-tab.active .tab-indicator {
+      opacity: 1;
+      transform: scaleX(1);
+    }
+
+    .m-nav-tab:active {
+      transform: scale(0.96);
+    }
+
+    /* ACTION SHEET MODAL (Lang & Currency Selection) */
+    .m-sheet-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.75);
+      backdrop-filter: blur(4px);
+      z-index: 1000;
+      display: none;
+      align-items: flex-end;
+      justify-content: center;
+    }
+
+    .m-sheet-overlay.open {
+      display: flex;
+    }
+
+    .m-sheet {
+      background: var(--bg-surface);
+      border-top: 2px solid var(--gold-primary);
+      border-radius: 20px 20px 0 0;
+      width: 100%;
+      max-width: 480px;
+      padding: 22px 20px 34px 20px;
+      box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.8);
+      animation: slideUp 0.22s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(100%); }
+      to { transform: translateY(0); }
+    }
+
+    .m-sheet-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--gold-light);
+      margin-bottom: 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .m-sheet-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 10px;
+      margin-bottom: 18px;
+    }
+
+    .m-sheet-btn {
+      padding: 12px 10px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid var(--border-subtle);
+      color: var(--text-main);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    /* MOBILE DETAIL MODAL */
+    .m-detail-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.88);
+      backdrop-filter: blur(10px);
+      z-index: 2000;
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+    }
+
+    .m-detail-overlay.open {
+      display: flex;
+    }
+
+    .m-detail-box {
+      background: var(--bg-surface);
+      border: 1.5px solid var(--gold-primary);
+      border-radius: 18px;
+      width: 100%;
+      max-width: 440px;
+      max-height: 85vh;
+      overflow-y: auto;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.9);
+      animation: mSlideUp 0.2s ease-out;
+    }
+
+    @keyframes mSlideUp {
+      from { transform: translateY(20px) scale(0.96); opacity: 0; }
+      to { transform: translateY(0) scale(1); opacity: 1; }
+    }
+
+    .m-modal-close {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--border-subtle);
+      color: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.2rem;
+      cursor: pointer;
+      z-index: 10;
+    }
+
+    .m-modal-img {
+      width: 100%;
+      height: 280px;
+      background: radial-gradient(circle at 50% 50%, rgba(212, 175, 55, 0.12), #070b14);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-bottom: 1px solid var(--border-subtle);
+    }
+
+    .m-modal-img img {
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      filter: drop-shadow(0 10px 20px rgba(0,0,0,0.8));
+    }
+  </style>
+</head>
+<body>
+  <div class="mobile-app-shell">
+    <!-- TOP HEADER -->
+    <header class="mobile-header">
+      <div class="m-brand" onclick="window.scrollTo({top:0, behavior:'smooth'})">
+        <div class="m-emblem">
+          <img src="img/ac_marriott_logo.jpg" alt="AC Hotel Logo">
+        </div>
+        <div class="m-brand-text">
+          <h1>KLOUD</h1>
+          <span>AC HOTEL BY MARRIOTT</span>
+        </div>
+      </div>
+
+      <!-- QUICK SETTINGS TRIGGER -->
+      <div class="m-header-actions">
+        <button class="m-pill-btn" id="btnOpenCurrency">
+          <span id="curBadgeLbl">₩ KRW</span>
+        </button>
+        <button class="m-pill-btn" id="btnOpenLang">
+          <span id="langBadgeLbl">한국어</span>
+        </button>
+        <button class="m-pill-btn" id="btnToggleFont" title="글자 크기">
+          <span id="fontScaleLbl">가A</span>
+        </button>
+      </div>
+    </header>
+
+    <!-- OPERATING HOURS BAR -->
+    <div class="m-notice-strip">
+      <div style="display: flex; align-items: center; gap: 6px;">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="opacity: 0.85;"><circle cx="12" cy="12" r="10"></circle><polyline points="12 6 12 12 16 14"></polyline></svg>
+        <strong>6:00 PM – 1:00 AM</strong> <span style="opacity: 0.75; font-size: 0.9em;">(L.O 11:30 PM)</span>
+      </div>
+      <div id="mPolicyNotice">* 1인 1음료</div>
+    </div>
+
+    <!-- HORIZONTAL SWIPE CATEGORY NAV -->
+    <div class="m-category-scroll" id="mCatScroll">
+      <!-- Populated via JS -->
+    </div>
+
+    <!-- MAIN BODY -->
+    <main class="m-app-body" id="mAppBody">
+      <!-- Search Input -->
+      <div class="m-search-wrap">
+        <span class="m-search-icon">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+        </span>
+        <input type="text" class="m-search-input" id="mSearchInput" placeholder="메뉴, 위스키, 칵테일 검색..." autocomplete="off">
+        <button class="m-search-clear" id="mSearchClear">✕</button>
+      </div>
+
+      <!-- Active Category Items -->
+      <div id="mItemsContainer">
+        <!-- Rendered by JS -->
+      </div>
+    </main>
+
+    <!-- BOTTOM APP TAB BAR (LUXURY TYPOGRAPHY) -->
+    <nav class="mobile-bottom-nav">
+      <button class="m-nav-tab active" data-shortcut="all" id="tabHome">
+        <span class="tab-label" id="lblHome"><span class="tab-main">ALL</span></span>
+        <span class="tab-indicator"></span>
+      </button>
+      <button class="m-nav-tab" data-shortcut="cocktails">
+        <span class="tab-label" id="lblCocktail"><span class="tab-main">COCKTAIL</span></span>
+        <span class="tab-indicator"></span>
+      </button>
+      <button class="m-nav-tab" data-shortcut="whisky">
+        <span class="tab-label" id="lblWhisky"><span class="tab-main">WHISKY</span></span>
+        <span class="tab-indicator"></span>
+      </button>
+      <button class="m-nav-tab" data-shortcut="food">
+        <span class="tab-label" id="lblFood"><span class="tab-main">DINING</span></span>
+        <span class="tab-indicator"></span>
+      </button>
+      <button class="m-nav-tab" data-shortcut="beer_soft">
+        <span class="tab-label" id="lblBeer"><span class="tab-main">BEER</span></span>
+        <span class="tab-indicator"></span>
+      </button>
+    </nav>
+  </div>
+
+  <!-- ACTION SHEET: QUICK SETTINGS MODAL -->
+  <div class="m-sheet-overlay" id="sheetOverlay">
+    <div class="m-sheet">
+      <div class="m-sheet-title">
+        <span id="sheetModalTitle">설정 (Settings)</span>
+        <button style="background:none;border:none;color:var(--text-muted);font-size:1.4rem;cursor:pointer;" id="btnCloseSheet">✕</button>
+      </div>
+
+      <!-- Currency Choice -->
+      <div style="font-size:0.85rem;color:var(--gold-primary);margin-bottom:8px;font-weight:600;">통화 선택 (Currency)</div>
+      <div class="m-sheet-grid" id="sheetCurGrid">
+        <button class="m-sheet-btn selected" data-cur="KRW"><span>₩</span><span>KRW (원)</span></button>
+        <button class="m-sheet-btn" data-cur="USD"><span>$</span><span>USD (달러)</span></button>
+        <button class="m-sheet-btn" data-cur="JPY"><span>¥</span><span>JPY (엔화)</span></button>
+      </div>
+
+      <!-- Lang Choice -->
+      <div style="font-size:0.85rem;color:var(--gold-primary);margin-bottom:8px;font-weight:600;">언어 선택 (Language)</div>
+      <div class="m-sheet-grid" id="sheetLangGrid">
+        <button class="m-sheet-btn selected" data-lang="ko"><span>🇰🇷</span><span>한국어</span></button>
+        <button class="m-sheet-btn" data-lang="en"><span>🇺🇸</span><span>English</span></button>
+        <button class="m-sheet-btn" data-lang="ja"><span>🇯🇵</span><span>日本語</span></button>
+      </div>
+    </div>
+  </div>
+
+  <!-- MOBILE DETAIL MODAL -->
+  <div class="m-detail-overlay" id="mDetailOverlay">
+    <div class="m-detail-box">
+      <button class="m-modal-close" id="mCloseDetailBtn">✕</button>
+      <div class="m-modal-img" id="mModalImgHolder"></div>
+      <div style="padding: 18px;">
+        <div id="mModalBadgeArea"></div>
+        <h3 id="mModalTitleMain" style="font-size:1.25rem; font-weight:700; color:var(--text-main); line-height:1.25;"></h3>
+        <div id="mModalTitleSub" style="font-size:0.85rem; color:var(--text-muted); font-style:italic; margin-top:2px;"></div>
+        <div id="mModalPriceBox" style="margin:14px 0; padding:10px 14px; background:rgba(0,0,0,0.3); border:1px solid var(--border-subtle); border-radius:10px;"></div>
+        <p id="mModalDescText" style="font-size:0.88rem; color:var(--text-muted); line-height:1.5; white-space:pre-line;"></p>
+        <div id="mModalDonenessArea"></div>
+        <div id="mModalTagsArea"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- DATA & LOGIC -->
+  <script src="menu-data.js"></script>
+  <script>
+    // State
+    let currentLang = localStorage.getItem('kloud_lang') || 'en';
+    let currentCurrency = localStorage.getItem('kloud_currency') || 'KRW';
+    let currentFont = localStorage.getItem('kloud_font') || 'normal';
+
+    const itemRegistry = {};
+    let regCounter = 0;
+    menuData.categories.forEach(cat => {
+      if (cat.items) cat.items.forEach(it => { it._regId = 'm_' + (++regCounter); itemRegistry[it._regId] = it; });
+      if (cat.subsections) cat.subsections.forEach(sub => sub.items.forEach(it => { it._regId = 'm_' + (++regCounter); itemRegistry[it._regId] = it; }));
+    });
+
+    let activeCatId = menuData.categories[0].id;
+    let searchQuery = '';
+
+    const FX_USD = 1350;
+    const FX_JPY = 9.0;
+
+    function applyAttributes() {
+      document.documentElement.setAttribute('data-lang', currentLang);
+      document.documentElement.setAttribute('data-currency', currentCurrency);
+      document.documentElement.setAttribute('data-font', currentFont);
+    }
+
+    function formatPrice(amountKrw) {
+      if (!amountKrw) return { main: '', converted: '' };
+      const krw = `₩${amountKrw.toLocaleString('ko-KR')}`;
+      const usd = `$${Math.round(amountKrw / FX_USD).toLocaleString('en-US')}`;
+      const jpy = `¥${Math.round(amountKrw / FX_JPY).toLocaleString('ja-JP')}`;
+
+      if (currentCurrency === 'KRW') {
+        return { main: krw, converted: `(${usd} / ${jpy})` };
+      } else if (currentCurrency === 'USD') {
+        return { main: usd, converted: `(KRW ₩${amountKrw.toLocaleString('ko-KR')})` };
+      } else {
+        return { main: jpy, converted: `(KRW ₩${amountKrw.toLocaleString('ko-KR')})` };
+      }
+    }
+
+    function updateLabels() {
+      document.getElementById('curBadgeLbl').textContent = currentCurrency === 'KRW' ? '₩ KRW' : (currentCurrency === 'USD' ? '$ USD' : '¥ JPY');
+      document.getElementById('langBadgeLbl').textContent = currentLang === 'ko' ? '한국어' : (currentLang === 'en' ? 'EN' : '日本語');
+      
+      const fLbl = document.getElementById('fontScaleLbl');
+      fLbl.textContent = currentFont === 'normal' ? '가A' : (currentFont === 'large' ? '가+' : '가++');
+
+      const pNotice = document.getElementById('mPolicyNotice');
+      const sInput = document.getElementById('mSearchInput');
+      const lblHome = document.getElementById('lblHome');
+      const lblCocktail = document.getElementById('lblCocktail');
+      const lblWhisky = document.getElementById('lblWhisky');
+      const lblFood = document.getElementById('lblFood');
+      const lblBeer = document.getElementById('lblBeer');
+
+      if (currentLang === 'ko') {
+        pNotice.textContent = '* 1인 1음료';
+        sInput.placeholder = '메뉴, 주류 이름 검색...';
+        lblHome.innerHTML = '<span class="tab-main">ALL</span><span class="tab-sub">전체</span>';
+        lblCocktail.innerHTML = '<span class="tab-main">COCKTAIL</span><span class="tab-sub">칵테일</span>';
+        lblWhisky.innerHTML = '<span class="tab-main">WHISKY</span><span class="tab-sub">위스키</span>';
+        lblFood.innerHTML = '<span class="tab-main">DINING</span><span class="tab-sub">다이닝</span>';
+        lblBeer.innerHTML = '<span class="tab-main">BEER</span><span class="tab-sub">생맥주</span>';
+      } else if (currentLang === 'en') {
+        pNotice.textContent = '* 1 drink/guest';
+        sInput.placeholder = 'Search dish, drinks...';
+        lblHome.innerHTML = '<span class="tab-main">ALL</span>';
+        lblCocktail.innerHTML = '<span class="tab-main">COCKTAILS</span>';
+        lblWhisky.innerHTML = '<span class="tab-main">WHISKY</span>';
+        lblFood.innerHTML = '<span class="tab-main">DINING</span>';
+        lblBeer.innerHTML = '<span class="tab-main">BEERS</span>';
+      } else {
+        pNotice.textContent = '※ 1ドリンク制';
+        sInput.placeholder = 'メニュー、ドリンク検索...';
+        lblHome.innerHTML = '<span class="tab-main">ALL</span><span class="tab-sub">全体</span>';
+        lblCocktail.innerHTML = '<span class="tab-main">COCKTAIL</span><span class="tab-sub">カクテル</span>';
+        lblWhisky.innerHTML = '<span class="tab-main">WHISKY</span><span class="tab-sub">ウイスキー</span>';
+        lblFood.innerHTML = '<span class="tab-main">DINING</span><span class="tab-sub">フード</span>';
+        lblBeer.innerHTML = '<span class="tab-main">BEER</span><span class="tab-sub">ビール</span>';
+      }
+
+      // Sync Sheet buttons
+      document.querySelectorAll('#sheetCurGrid .m-sheet-btn').forEach(b => {
+        b.classList.toggle('selected', b.getAttribute('data-cur') === currentCurrency);
+      });
+      document.querySelectorAll('#sheetLangGrid .m-sheet-btn').forEach(b => {
+        b.classList.toggle('selected', b.getAttribute('data-lang') === currentLang);
+      });
+    }
+
+    function renderCategoryChips() {
+      const bar = document.getElementById('mCatScroll');
+      bar.innerHTML = '';
+
+      menuData.categories.forEach(cat => {
+        const chip = document.createElement('button');
+        chip.className = `m-cat-chip ${cat.id === activeCatId ? 'active' : ''}`;
+        chip.innerHTML = `<span>${escapeHtml(cat.name[currentLang] || cat.name.en)}</span>`;
+        chip.onclick = () => {
+          activeCatId = cat.id;
+          document.querySelectorAll('.m-cat-chip').forEach(c => c.classList.remove('active'));
+          chip.classList.add('active');
+          chip.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' });
+          renderContent();
+          document.getElementById('mAppBody').scrollTo({ top: 0, behavior: 'smooth' });
+        };
+        bar.appendChild(chip);
+      });
+    }
+
+    function renderContent() {
+      const container = document.getElementById('mItemsContainer');
+      container.innerHTML = '';
+
+      const query = searchQuery.trim().toLowerCase();
+      const targetCats = query 
+        ? menuData.categories 
+        : menuData.categories.filter(c => c.id === activeCatId);
+
+      let found = false;
+
+      targetCats.forEach(cat => {
+        let hasItems = false;
+        const block = document.createElement('div');
+        block.style.marginBottom = '28px';
+
+        let html = `
+          <div class="m-hero-header">
+            <h2 class="m-hero-title">${escapeHtml(cat.name[currentLang] || cat.name.en)}</h2>
+            <p class="m-hero-desc">${cat.desc[currentLang] || cat.desc.en}</p>
+          </div>
+        `;
+
+        if (cat.bannerImage && !query) {
+          html += `<div class="m-cat-banner"><img src="${cat.bannerImage}" alt="${cat.name[currentLang]}"></div>`;
+        }
+
+        if (cat.items && cat.items.length > 0) {
+          const filtered = cat.items.filter(item => matchSearch(item, query));
+          if (filtered.length > 0) {
+            hasItems = true;
+            found = true;
+            html += filtered.map(renderMobileCard).join('');
+          }
+        }
+
+        if (cat.subsections && cat.subsections.length > 0) {
+          cat.subsections.forEach(sub => {
+            const filteredSub = sub.items.filter(item => matchSearch(item, query));
+            if (filteredSub.length > 0) {
+              hasItems = true;
+              found = true;
+              const subNotice = sub.notice ? (sub.notice[currentLang] || sub.notice.en) : '';
+              html += `
+                <div class="m-sub-title">${sub.title[currentLang] || sub.title.en}</div>
+                ${sub.bannerImage && !query ? `
+                  <div class="m-cat-banner" style="margin-bottom: 14px;">
+                    <img src="${sub.bannerImage}" alt="${escapeHtml(sub.title[currentLang] || sub.title.en)}" style="border-radius: 12px; width: 100%; display: block; border: 1px solid var(--border-subtle); box-shadow: 0 4px 20px rgba(0,0,0,0.5);">
+                  </div>
+                ` : ''}
+                ${subNotice ? `
+                  <div class="m-sub-notice-banner">
+                    <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink: 0; opacity: 0.9;"><circle cx="12" cy="12" r="10"></circle><line x1="12" y1="16" x2="12" y2="12"></line><line x1="12" y1="8" x2="12.01" y2="8"></line></svg>
+                    <span>${escapeHtml(subNotice)}</span>
+                  </div>
+                ` : ''}
+                ${filteredSub.map(renderMobileCard).join('')}
+              `;
+            }
+          });
+        }
+
+        if (hasItems || !query) {
+          block.innerHTML = html;
+          container.appendChild(block);
+        }
+      });
+
+      if (query && !found) {
+        container.innerHTML = `
+          <div style="text-align: center; padding: 50px 20px; color: var(--text-muted);">
+            <div style="margin-bottom: 14px; opacity: 0.4;">
+              <svg width="42" height="42" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
+            </div>
+            <h4>${currentLang === 'ko' ? '검색 결과가 없습니다' : 'No menu items found'}</h4>
+            <p style="font-size: 0.85rem; margin-top: 6px;">"${escapeHtml(query)}"</p>
+          </div>
+        `;
+      }
+    }
+
+    function matchSearch(item, q) {
+      if (!q) return true;
+      const nKo = (item.name?.ko || '').toLowerCase();
+      const nEn = (item.name?.en || '').toLowerCase();
+      const nJa = (item.name?.ja || '').toLowerCase();
+      const dKo = (item.desc?.ko || '').toLowerCase();
+      const dEn = (item.desc?.en || '').toLowerCase();
+      const tags = (item.tags || []).join(' ').toLowerCase();
+      return nKo.includes(q) || nEn.includes(q) || nJa.includes(q) || dKo.includes(q) || dEn.includes(q) || tags.includes(q);
+    }
+
+    function renderMobileCard(item) {
+      const mainName = item.name[currentLang] || item.name.en;
+      const subName = currentLang === 'ko' ? item.name.en : item.name.ko;
+      const desc = item.desc ? (item.desc[currentLang] || item.desc.en || '') : '';
+      const badge = item.badge ? `<span class="m-item-badge">${item.badge[currentLang] || item.badge.en}</span>` : '';
+      const note = item.note ? `<div class="m-item-note">${item.note[currentLang] || item.note.en}</div>` : '';
+      const vintage = item.vintage ? `<span class="m-tag" style="border-radius:4px;">Vintage ${item.vintage}</span>` : '';
+
+      let priceHtml = '';
+      if (item.glassPrice || item.bottlePrice) {
+        const g = formatPrice(item.glassPrice);
+        const b = formatPrice(item.bottlePrice);
+        const gLbl = currentLang === 'ko' ? '글라스' : (currentLang === 'ja' ? 'グラス' : 'Glass');
+        const bLbl = currentLang === 'ko' ? '보틀' : (currentLang === 'ja' ? 'ボトル' : 'Bottle');
+
+        priceHtml = `
+          <div class="m-price-col">
+            ${item.glassPrice ? `
+              <div>
+                <div class="m-dual-row"><span class="m-dual-lbl">${gLbl}</span><span class="m-price-main">${g.main}</span></div>
+                <div class="m-price-sub">${g.converted}</div>
+              </div>` : ''}
+            ${item.bottlePrice ? `
+              <div style="margin-top:4px;">
+                <div class="m-dual-row"><span class="m-dual-lbl">${bLbl}</span><span class="m-price-main">${b.main}</span></div>
+                <div class="m-price-sub">${b.converted}</div>
+              </div>` : ''}
+          </div>
+        `;
+      } else if (item.price) {
+        const p = formatPrice(item.price);
+        priceHtml = `
+          <div class="m-price-col">
+            <div class="m-price-main">${p.main}</div>
+            <div class="m-price-sub">${p.converted}</div>
+          </div>
+        `;
+      }
+
+      // Doneness options
+      let donenessHtml = '';
+      if (item.donenessOptions && item.donenessOptions.length > 0) {
+        const dTitle = currentLang === 'ko' ? '🥩 굽기 선택 (Doneness):' : (currentLang === 'ja' ? '🥩 焼き加減 (Doneness):' : '🥩 Meat Doneness:');
+        donenessHtml = `
+          <div style="margin-top: 10px; padding: 8px 10px; background: rgba(212, 175, 55, 0.06); border: 1px dashed rgba(212, 175, 55, 0.3); border-radius: 8px;">
+            <div style="font-size: calc(0.72rem * var(--font-scale)); color: var(--gold-primary); font-weight: 700; margin-bottom: 5px;">${dTitle}</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+              ${item.donenessOptions.map((opt, idx) => `
+                <button type="button" class="doneness-chip" onclick="selectDoneness(this)" style="
+                  background: ${idx === 1 ? 'linear-gradient(135deg, var(--gold-light), var(--gold-primary))' : 'rgba(255,255,255,0.06)'};
+                  color: ${idx === 1 ? '#070b14' : 'var(--text-main)'};
+                  border: 1px solid rgba(212,175,55,0.3);
+                  padding: 3px 8px;
+                  border-radius: 12px;
+                  font-size: calc(0.72rem * var(--font-scale));
+                  font-weight: 600;
+                  cursor: pointer;
+                ">${opt}</button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      }
+
+      let tagsHtml = '';
+      if (item.tags && item.tags.length > 0) {
+        tagsHtml = `<div class="m-tags">${item.tags.map(t => `<span class="m-tag">#${t}</span>`).join('')}</div>`;
+      }
+
+      return `
+        <div class="m-item-card ${item.highlight ? 'highlight' : ''}" data-reg-id="${item._regId}" onclick="openMobileDetailModal('${item._regId}')" style="cursor: pointer;">
+          ${badge}
+          <div class="m-card-top">
+            <div class="m-title-area">
+              <div class="m-item-name">${escapeHtml(mainName)}</div>
+              <div class="m-item-sub">${escapeHtml(subName)}</div>
+              ${vintage}
+            </div>
+            ${priceHtml}
+          </div>
+          ${desc ? `<p class="m-item-desc">${escapeHtml(desc)}</p>` : ''}
+          ${donenessHtml}
+          ${tagsHtml}
+          ${note}
+        </div>
+      `;
+    }
+
+    function selectDoneness(btn, event) {
+      if (event) event.stopPropagation();
+      const parent = btn.parentElement;
+      parent.querySelectorAll('.doneness-chip').forEach(b => {
+        b.style.background = 'rgba(255,255,255,0.06)';
+        b.style.color = 'var(--text-main)';
+      });
+      btn.style.background = 'linear-gradient(135deg, var(--gold-light), var(--gold-primary))';
+      btn.style.color = '#070b14';
+    }
+
+    function escapeHtml(s) {
+      if (!s) return '';
+      return s.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/"/g, '&quot;');
+    }
+
+    // MOBILE DETAIL MODAL CONTROLLER
+    const mDetailOverlay = document.getElementById('mDetailOverlay');
+    const mCloseDetailBtn = document.getElementById('mCloseDetailBtn');
+
+    function openMobileDetailModal(regId) {
+      const item = itemRegistry[regId];
+      if (!item) return;
+
+      const isKo = currentLang === 'ko';
+      const isJa = currentLang === 'ja';
+      const mainName = item.name[currentLang] || item.name.en;
+      const subName = isKo ? item.name.en : item.name.ko;
+      const desc = item.desc ? (item.desc[currentLang] || item.desc.en || '') : '';
+      const badge = item.badge ? `<span class="m-item-badge" style="display:inline-block; margin-bottom:8px;">${item.badge[currentLang] || item.badge.en}</span>` : '';
+
+      document.getElementById('mModalTitleMain').textContent = mainName;
+      document.getElementById('mModalTitleSub').textContent = subName;
+      document.getElementById('mModalBadgeArea').innerHTML = badge;
+      document.getElementById('mModalDescText').textContent = desc;
+
+      const imgHolder = document.getElementById('mModalImgHolder');
+      if (item.image) {
+        imgHolder.innerHTML = `<img src="${item.image}" alt="${escapeHtml(mainName)}" loading="lazy">`;
+      } else {
+        imgHolder.innerHTML = `
+          <div style="display: flex; flex-direction: column; align-items: center; justify-content: center; color: var(--gold-primary); gap: 8px;">
+            <span style="font-size: 3rem;">🍾</span>
+            <div style="font-size: 0.85rem; font-weight: 600; opacity: 0.8;">
+              ${isKo ? '사진 준비 중 (Photo Coming Soon)' : (isJa ? '写真準備中' : 'Bottle Photo Coming Soon')}
+            </div>
+            <div style="font-size: 0.72rem; color: var(--text-muted);">${escapeHtml(mainName)}</div>
+          </div>
+        `;
+      }
+
+      // Price Formatting in Modal
+      const priceBox = document.getElementById('mModalPriceBox');
+      if (item.glassPrice || item.bottlePrice) {
+        const g = formatPrice(item.glassPrice);
+        const b = formatPrice(item.bottlePrice);
+        const gLbl = isKo ? '글라스 (Glass)' : (isJa ? 'グラス' : 'Glass');
+        const bLbl = isKo ? '보틀 (Bottle)' : (isJa ? 'ボトル' : 'Bottle');
+        priceBox.innerHTML = `
+          <div style="width: 100%; display: flex; flex-direction: column; gap: 6px;">
+            ${item.glassPrice ? `<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size:0.8rem;color:var(--text-muted);">${gLbl}</span><span style="font-family:'Cinzel',sans-serif;font-weight:700;color:var(--gold-light);">${g.main} <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">${g.converted}</span></span></div>` : ''}
+            ${item.bottlePrice ? `<div style="display: flex; justify-content: space-between; align-items: baseline;"><span style="font-size:0.8rem;color:var(--text-muted);">${bLbl}</span><span style="font-family:'Cinzel',sans-serif;font-weight:700;color:var(--gold-light);">${b.main} <span style="font-size:0.75rem;color:var(--text-muted);font-weight:400;">${b.converted}</span></span></div>` : ''}
+          </div>
+        `;
+      } else if (item.price) {
+        const p = formatPrice(item.price);
+        priceBox.innerHTML = `
+          <div style="display: flex; justify-content: space-between; align-items: baseline; width: 100%;">
+            <span style="font-size: 0.8rem; color: var(--text-muted); font-weight: 600;">PRICE</span>
+            <span style="font-family:'Cinzel',sans-serif;font-weight:700;font-size:1.15rem;color:var(--gold-light);">${p.main} <span style="font-size: 0.78rem; color: var(--text-muted); font-weight: 400;">${p.converted}</span></span>
+          </div>
+        `;
+      } else {
+        priceBox.innerHTML = '';
+      }
+
+      // Tags
+      const tagsArea = document.getElementById('mModalTagsArea');
+      if (item.tags && item.tags.length > 0) {
+        tagsArea.innerHTML = `<div class="m-tags" style="margin-top: 12px;">${item.tags.map(t => `<span class="m-tag">#${t}</span>`).join('')}</div>`;
+      } else {
+        tagsArea.innerHTML = '';
+      }
+
+      // Doneness
+      const donenessArea = document.getElementById('mModalDonenessArea');
+      if (item.donenessOptions && item.donenessOptions.length > 0) {
+        const dTitle = isKo ? '🥩 굽기 선택 (Doneness):' : (isJa ? '🥩 焼き加減:' : '🥩 Doneness Options:');
+        donenessArea.innerHTML = `
+          <div style="margin: 10px 0; padding: 8px 10px; background: rgba(212,175,55,0.06); border: 1px dashed rgba(212,175,55,0.3); border-radius: 8px;">
+            <div style="font-size: 0.76rem; color: var(--gold-primary); font-weight: 700; margin-bottom: 5px;">${dTitle}</div>
+            <div style="display: flex; flex-wrap: wrap; gap: 5px;">
+              ${item.donenessOptions.map((opt, idx) => `
+                <button type="button" class="doneness-chip ${idx === 1 ? 'selected' : ''}" onclick="selectDoneness(this, event)" style="
+                  background: ${idx === 1 ? 'linear-gradient(135deg, var(--gold-light), var(--gold-primary))' : 'rgba(255,255,255,0.06)'};
+                  color: ${idx === 1 ? '#070b14' : 'var(--text-main)'};
+                  border: 1px solid rgba(212,175,55,0.3);
+                  padding: 3px 8px; border-radius: 12px; font-size: 0.72rem; font-weight: 600; cursor: pointer;
+                ">${opt}</button>
+              `).join('')}
+            </div>
+          </div>
+        `;
+      } else {
+        donenessArea.innerHTML = '';
+      }
+
+      mDetailOverlay.classList.add('open');
+    }
+
+    window.openMobileDetailModal = openMobileDetailModal;
+
+    if (mCloseDetailBtn) {
+      mCloseDetailBtn.onclick = () => mDetailOverlay.classList.remove('open');
+    }
+    if (mDetailOverlay) {
+      mDetailOverlay.onclick = (e) => {
+        if (e.target === mDetailOverlay) mDetailOverlay.classList.remove('open');
+      };
+    }
+
+    // Direct event delegation fallback
+    document.addEventListener('click', (e) => {
+      const card = e.target.closest('.m-item-card');
+      if (card && card.dataset.regId) {
+        if (e.target.closest('.doneness-chip')) return;
+        openMobileDetailModal(card.dataset.regId);
+      }
+    });
+
+    // BOTTOM SHORTCUT TABS
+    document.querySelectorAll('.m-nav-tab').forEach(tab => {
+      tab.onclick = () => {
+        document.querySelectorAll('.m-nav-tab').forEach(t => t.classList.remove('active'));
+        tab.classList.add('active');
+
+        const shortcut = tab.getAttribute('data-shortcut');
+        if (shortcut === 'all') {
+          activeCatId = menuData.categories[0].id;
+        } else {
+          activeCatId = shortcut;
+        }
+        renderCategoryChips();
+        renderContent();
+        document.getElementById('mAppBody').scrollTo({ top: 0, behavior: 'smooth' });
+
+        // Sync chips scroll position
+        const activeChip = document.querySelector(`.m-cat-chip[data-cat-id="${activeCatId}"]`);
+        if (activeChip) activeChip.scrollIntoView({ behavior: 'smooth', inline: 'center' });
+      };
+    });
+
+    // SETTINGS ACTION SHEET
+    const sheet = document.getElementById('sheetOverlay');
+    document.getElementById('btnOpenCurrency').onclick = () => sheet.classList.add('open');
+    document.getElementById('btnOpenLang').onclick = () => sheet.classList.add('open');
+    document.getElementById('btnCloseSheet').onclick = () => sheet.classList.remove('open');
+    sheet.onclick = (e) => { if (e.target === sheet) sheet.classList.remove('open'); };
+
+    document.querySelectorAll('#sheetCurGrid .m-sheet-btn').forEach(b => {
+      b.onclick = () => {
+        currentCurrency = b.getAttribute('data-cur');
+        localStorage.setItem('kloud_currency', currentCurrency);
+        applyAttributes();
+        updateLabels();
+        renderContent();
+        sheet.classList.remove('open');
+      };
+    });
+
+    document.querySelectorAll('#sheetLangGrid .m-sheet-btn').forEach(b => {
+      b.onclick = () => {
+        currentLang = b.getAttribute('data-lang');
+        localStorage.setItem('kloud_lang', currentLang);
+        applyAttributes();
+        updateLabels();
+        renderCategoryChips();
+        renderContent();
+        sheet.classList.remove('open');
+      };
+    });
+
+    document.getElementById('btnToggleFont').onclick = () => {
+      if (currentFont === 'normal') currentFont = 'large';
+      else if (currentFont === 'large') currentFont = 'xlarge';
+      else currentFont = 'normal';
+      localStorage.setItem('kloud_font', currentFont);
+      applyAttributes();
+      updateLabels();
+    };
+
+    // SEARCH
+    const sInput = document.getElementById('mSearchInput');
+    const sClear = document.getElementById('mSearchClear');
+    sInput.oninput = (e) => {
+      searchQuery = e.target.value;
+      sClear.style.display = searchQuery ? 'flex' : 'none';
+      renderContent();
+    };
+    sClear.onclick = () => {
+      sInput.value = '';
+      searchQuery = '';
+      sClear.style.display = 'none';
+      renderContent();
+    };
+
+    // INIT
+    applyAttributes();
+    updateLabels();
+    renderCategoryChips();
+    renderContent();
+  </script>
+</body>
+</html>
