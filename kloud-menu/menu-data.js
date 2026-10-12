@@ -159,31 +159,21 @@ const menuData = {
         },
         {
           title: { ko: "The Myth of Autumn (그리스 신화 가을 시즌 칵테일)", en: "The Myth of Autumn (Seasonal)", ja: "The Myth of Autumn (秋の特別カクテル)" },
+          bannerImage: "img/myth_of_autumn_banner.jpg",
           items: [
             {
-              name: { ko: "01 에우리디케", en: "01 Eurydice", ja: "01 エウリュディケ" },
+              name: { ko: "01 페르세포네", en: "01 Persephone", ja: "01 ペルセポネ" },
               price: 33000,
-              image: "img/cocktail_eurydice.jpg",
-              tags: ["Delicate", "Floral", "Clear", "Airy", "Silken"],
+              image: "img/cocktail_persephone.png",
+              tags: ["Tart", "Floral", "Bright", "Elegant", "Citrusy"],
               desc: { 
-                ko: "배와 엘더플라워, 백차의 향이 맑게 이어지는 칵테일", 
-                en: "Pear, elderflower, and white tea notes, delicate and clear.",
-                ja: "洋梨とエルダーフラワー、白茶の香りが澄んだように広がるカクテル。"
+                ko: "석류의 산미와 플로럴 향이 어우러진 우아한 칵테일", 
+                en: "Tart pomegranate and floral notes, elegant and bright.",
+                ja: "ザクロの酸味と華やかなフローラルの香りが調和した優雅なカクテル。"
               }
             },
             {
-              name: { ko: "02 오르페우스", en: "02 Orpheus", ja: "02 オルフェウス" },
-              price: 33000,
-              image: "img/cocktail_orpheus.jpg",
-              tags: ["Herbal", "Honeyed", "Citrusy", "Sparkling", "Light"],
-              desc: { 
-                ko: "허브와 꿀의 달콤함에 시트러스 소다를 더한 가벼운 칵테일", 
-                en: "Herbal and honeyed notes with citrus soda, light and sparkling.",
-                ja: "ハーブとはちみつの甘さにシトラスソーダを加えた爽快なカクテル。"
-              }
-            },
-            {
-              name: { ko: "03 하데스", en: "03 Hades", ja: "03 ハデス" },
+              name: { ko: "02 하데스", en: "02 Hades", ja: "02 ハデス" },
               price: 33000,
               image: "img/cocktail_hades.jpg",
               tags: ["Bittersweet", "Warm", "Deep", "Smoky", "Velvety"],
@@ -194,14 +184,25 @@ const menuData = {
               }
             },
             {
-              name: { ko: "04 페르세포네", en: "04 Persephone", ja: "04 ペルセポネ" },
+              name: { ko: "03 오르페우스", en: "03 Orpheus", ja: "03 オルフェウス" },
               price: 33000,
-              image: "img/cocktail_persephone.png",
-              tags: ["Tart", "Floral", "Bright", "Elegant", "Citrusy"],
+              image: "img/cocktail_orpheus.jpg",
+              tags: ["Herbal", "Honeyed", "Citrusy", "Sparkling", "Light"],
               desc: { 
-                ko: "석류의 산미와 플로럴 향이 어우러진 우아한 칵테일", 
-                en: "Tart pomegranate and floral notes, elegant and bright.",
-                ja: "ザクロの酸味と華やかなフローラルの香りが調和した優雅なカクテル。"
+                ko: "허브와 꿀의 달콤함에 시트러스 소다를 더한 가벼운 칵테일", 
+                en: "Herbal and honeyed notes with citrus soda, light and sparkling.",
+                ja: "ハーブとはちみつの甘さにシトラスソーダを加えた爽快なカクテル。"
+              }
+            },
+            {
+              name: { ko: "04 에우리디케", en: "04 Eurydice", ja: "04 エウリュディケ" },
+              price: 33000,
+              image: "img/cocktail_eurydice.jpg",
+              tags: ["Delicate", "Floral", "Clear", "Airy", "Silken"],
+              desc: { 
+                ko: "배와 엘더플라워, 백차의 향이 맑게 이어지는 칵테일", 
+                en: "Pear, elderflower, and white tea notes, delicate and clear.",
+                ja: "洋梨とエルダーフラワー、白茶の香りが澄んだように広がるカクテル。"
               }
             }
           ]
